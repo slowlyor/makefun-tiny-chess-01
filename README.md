@@ -8,7 +8,7 @@ A chess engine that fits in 4 KB of Python. `main.py` is the whole engine: a 0x8
 
 ## Engine
 
-The board is a 0x88 array, so off-board tests are a single `& 136` check. Search is negamax alpha-beta with quiescence (captures only, plus full check evasions when in check), backed by a transposition table keyed on Zobrist hashes. Null-move pruning, principal-variation search with late-move reductions, and killer-move ordering keep the tree small enough for pure Python. Evaluation is incremental piece-square tables — material plus placement, scored as the board changes — with a separate endgame king table that blends in once both queens are gone. Every move searches to a fixed budget of 40,000 nodes and never consults a clock, which makes games exactly reproducible; on the kit's practice gauntlet it reached Elo 1464.
+The board is a 0x88 array, so off-board tests are a single `& 136` check. Search is negamax alpha-beta with quiescence (captures only, plus full check evasions when in check), backed by a transposition table keyed on Zobrist hashes. Null-move pruning, principal-variation search with late-move reductions, and killer-move ordering keep the tree small enough for pure Python. Evaluation is incremental piece-square tables — material plus placement, scored as the board changes — with a separate endgame king table that blends in once both queens are gone. Aspiration windows around the previous iteration's score cut re-searches. Every move searches to a fixed budget of 100,000 nodes and never consults a clock, which makes games exactly reproducible; on the kit's practice gauntlet it reached Elo 1748 (trials 0 and 1; was 1530).
 
 ## Run it
 
